@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function SignupPage() {
     username: "",
   });
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false);
 
   const onSignup = async () => {
     try {
@@ -24,64 +24,84 @@ export default function SignupPage() {
     } catch (error: any) {
       console.log("Signup Failed", error);
       toast.error(error.message);
-    } finally{
+    } finally {
       setLoading(false);
     }
   };
 
-
   React.useEffect(() => {
-    if(user.email.length > 6 && user.password.length > 8 && user.username.length > 2){
+    if (
+      user.email.length > 6 &&
+      user.password.length > 8 &&
+      user.username.length > 2
+    ) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
     }
-  }, [user])
-  
+  }, [user]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>{loading ? "Processing" : "Signup" }</h1>
-      <hr />
-      <label htmlFor="username">username</label>
-      <input
-        id="username"
-        type="text"
-        value={user.username}
-        onChange={(e) => setUser({ ...user, username: e.target.value })}
-        placeholder="username"
-        className="p-2 text-black"
-      />
-      <label htmlFor="email">email</label>
-      <input
-        id="email"
-        type="email"
-        value={user.email}
-        onChange={(e) => setUser({ ...user, email: e.target.value })}
-        placeholder="email"
-        className="p-2 text-black"
-      />
-      <label htmlFor="password">password</label>
-      <input
-        id="password"
-        type="password"
-        value={user.password}
-        onChange={(e) => setUser({ ...user, password: e.target.value })}
-        placeholder="password"
-        className="p-2 text-black"
-      />
-      <button
-        className="p-2 border-blue-100 rounded-lg mb-4 mt-8 focus:outline-none bg-blue-200 hover:bg-blue-900"
-        onClick={onSignup}
+    <div className="h-screen w-screen flex items-center justify-center">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute z-10 w-full h-full object-cover"
       >
-        {buttonDisabled ? "Fill the info first" : "Signup"}
-      </button>
-      <Link
-        href="/login"
-        className="bg-red-500 p-1 hover:bg-red-900 rounded-lg"
-      >
-        Visit Login Page
-      </Link>
+        <source src="/bg-vid.mp4" />
+      </video>
+
+      <div
+    className="absolute z-20 w-full h-full bg-opacity-50 backdrop-filter backdrop-blur-sm"
+    style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+  ></div>
+
+      <div className="flex z-50 flex-col items-center justify-center min-h-max bg-gray-800 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-50 border border-gray-100 px-10 py-8">
+        <h1 className="font-sans font-semibold text-2xl">{loading ? "Processing" : "Signup"}</h1>
+        <hr />
+        <label className="font-sans font-light pt-6 pb-2" htmlFor="username">Username</label>
+        <input
+          id="username"
+          type="text"
+          value={user.username}
+          onChange={(e) => setUser({ ...user, username: e.target.value })}
+          placeholder="coolusername123"
+          className="p-2 text-white bg-transparent border rounded-lg font-sans"
+        />
+        <label className="font-sans pt-3 pb-2 font-normal" htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          value={user.email}
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          placeholder="test@test.com"
+          className="p-2 text-white bg-transparent border rounded-lg font-sans"
+        />
+        <label className="pt-3 pb-2 font-sans font-normal" htmlFor="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          value={user.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          placeholder="unhackablepassword"
+          className="p-2 text-white bg-transparent border rounded-lg font-sans"
+        />
+        <button
+  className="p-2 rounded-lg mb-4 mt-8 focus:outline-none bg-gray-300 hover:bg-gray-400 text-gray-700 capitalize font-sans ease-in-out duration-500"
+  onClick={onSignup}
+>
+  {buttonDisabled ? "Fill the info first" : "Signup"}
+</button>
+
+<Link
+  href="/login"
+  className="bg-gray-300 p-2 hover:bg-gray-400 rounded-lg text-gray-700 capitalize font-sans ease-in-out duration-500"
+>
+  Visit Login Page
+</Link>
+      </div>
     </div>
   );
 }
